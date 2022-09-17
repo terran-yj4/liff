@@ -15,6 +15,7 @@
         .then(() => {
           const accessToken = liff.getAccessToken()
           alert(accessToken)
+          document.getElementById('log').value = accessToken
             .then(function () {
               document.getElementById('log').value += accessToken;
             }).catch(function (error) {
