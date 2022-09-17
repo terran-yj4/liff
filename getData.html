@@ -14,8 +14,8 @@
         })
         .then(() => {
           const accessToken = liff.getAccessToken()
+          alert(accessToken)
             .then(function () {
-              alert(accessToken)
               document.getElementById('log').value += accessToken;
             }).catch(function (error) {
               document.getElementById('log').value += 'sendMessagesText()=' + error + '\n';
