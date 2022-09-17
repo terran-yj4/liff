@@ -10,16 +10,16 @@
     document.addEventListener("DOMContentLoaded", () => {
       liff
         .init({
-          liffId: '1656316634-yQgaXE5q'
+          liffId: '1656316634-09bXLKaV'
         })
         .then(() => {
-          const accessToken = liff.getAccessToken();
-          alert(accessToken)
-          .then(function () {
+          const accessToken = liff.getAccessToken()
+            .then(function () {
+              alert(accessToken)
               document.getElementById('log').value += accessToken;
             }).catch(function (error) {
               document.getElementById('log').value += 'sendMessagesText()=' + error + '\n';
-              alert(error)
+              alert("トークルームが開かれていません。\n送信先ルームを開いて実行してね。\n\n"+error)
             });
           
         })
