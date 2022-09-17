@@ -16,13 +16,6 @@
           const accessToken = liff.getAccessToken()
           alert(accessToken)
           document.getElementById('log').value = accessToken
-            .then(function () {
-              document.getElementById('log').value += accessToken;
-            }).catch(function (error) {
-              document.getElementById('log').value += 'sendMessagesText()=' + error + '\n';
-              alert("トークルームが開かれていません。\n送信先ルームを開いて実行してね。\n\n"+error)
-            });
-          
         })
         .catch((err) => {
           document.getElementById('log').value = 'init ng\n' + err;
