@@ -13,9 +13,10 @@
           liffId: '1656316634-yQgaXE5q'
         })
         .then(() => {
+          const context = liff.getContext();
           const accessToken = liff.getAccessToken()
-          alert(accessToken)
           document.getElementById('log').value = accessToken
+          document.getElementById('context').value = context
         })
         .catch((err) => {
           document.getElementById('log').value = 'init ng\n' + err;
@@ -27,8 +28,12 @@
 
 <body>
   <div>
-    <h3>sendMessage</h3>
+    <h3>accessToken</h3>
     <textarea id="log" placeholder="Log" style="width:96%;height:100px;"></textarea>
+  </div>
+  <div>
+    <h3>context</h3>
+    <textarea id="context" placeholder="Log" style="width:96%;height:100px;"></textarea>
   </div>
 </body>
 
