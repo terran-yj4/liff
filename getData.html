@@ -16,7 +16,7 @@
           const context = liff.getContext();
           const accessToken = liff.getAccessToken()
           document.getElementById('log').value = accessToken
-          document.getElementById('context').value = context
+          document.getElementById('context').value = JSON.stringify(context)
         })
         .catch((err) => {
           document.getElementById('log').value = 'init ng\n' + err;
