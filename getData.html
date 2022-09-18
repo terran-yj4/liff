@@ -23,12 +23,21 @@
           alert("initialization failed")
         });
     });
+    const copyAT = () => {
+      var at = document.getElementById("log");
+      var text = document.createElement("textarea");
+      text.value = at.dataset.copy_clipboard;
+      document.body.appendChild(text);
+      text.select();
+      document.execCommand("copy");
+    }
   </script>
 </head>
 
 <body>
   <div>
     <h3>accessToken</h3>
+    <input type="button" value="copyAccessToken" onclick="copyAT()">
     <textarea id="log" placeholder="Log" style="width:96%;height:100px;"></textarea>
   </div>
   <div>
