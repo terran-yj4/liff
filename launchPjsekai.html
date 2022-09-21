@@ -14,20 +14,22 @@
         })
         .then(() => {
           window.location.href = 'com.sega.pjsekai.jump://';
-          liff.closeWindow()
         })
         .catch((err) => {
           document.getElementById('log').value = 'init ng\n' + err;
           alert("initialization failed")
         });
     });
+    const open = () => {
+      window.location.href = 'com.sega.pjsekai.jump://';
+    }
   </script>
 </head>
 
 <body>
   <div>
     <h3>openPjsekai</h3>
-    <input type="button" value="copyAccessToken" onclick="copyAT()">
+    <input type="button" value="openPjsekai" onclick="open()">
     <textarea id="log" placeholder="Log" style="width:96%;height:100px;"></textarea>
   </div>
 </body>
