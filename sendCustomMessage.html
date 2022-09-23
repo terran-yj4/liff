@@ -14,61 +14,62 @@
     // それぞれのパラメータを変数に代入
     let type = params.get('type')
 
-    //テキスト
-    if (type == "txt") {
-      let txt = params.get('txt')
-      content = {
-        "type": "text",
-        "text": txt
-      }
-    }
-
-    //スタンプ
-    if (type == "stk") {
-      let stk = params.get('stk')
-      let sid = params.get('sid')
-      let pkgid = params.get('pkg')
-      let imgurl = "https://stickershop.line-scdn.net/stickershop/v1/sticker/" + sid + "/iPhone/sticker@2x.png"
-      let link = "https://line.me/S/sticker/" + pkgid
-      if (stk == "anim") {
-        imgurl = "https://stickershop.line-scdn.net/stickershop/v1/sticker/" + sid + "/iPhone/sticker_animation@2x.png"
-      }
-      content = {
-        "type": "template",
-        "altText": "BigStickerが送信されました",
-        "template": {
-          "type": "image_carousel",
-          "columns": [
-            {
-              "imageUrl": imgurl,
-              "action": {
-                "type": "uri",
-                "uri": link
-              }
-            }
-          ]
-        }
-      }
-    }
-
-    //画像
-    if (type == "img") {
-      let imgurl = params.get('imgurl')
-      content = {
-        "type": "template",
-        "altText": "写真が送信されました",
-        "template": {
-          "type": "image_carousel",
-          "columns": [
-            {
-              "imageUrl": imgurl
-            }
-          ]
-        }
-      }
-    }
-
     document.addEventListener("DOMContentLoaded", () => {
+
+      //テキスト
+      if (type == "txt") {
+        let txt = params.get('txt')
+        content = {
+          "type": "text",
+          "text": txt
+        }
+      }
+
+      //スタンプ
+      if (type == "stk") {
+        let stk = params.get('stk')
+        let sid = params.get('sid')
+        let pkgid = params.get('pkg')
+        let imgurl = "https://stickershop.line-scdn.net/stickershop/v1/sticker/" + sid + "/iPhone/sticker@2x.png"
+        let link = "https://line.me/S/sticker/" + pkgid
+        if (stk == "anim") {
+          imgurl = "https://stickershop.line-scdn.net/stickershop/v1/sticker/" + sid + "/iPhone/sticker_animation@2x.png"
+        }
+        content = {
+          "type": "template",
+          "altText": "BigStickerが送信されました",
+          "template": {
+            "type": "image_carousel",
+            "columns": [
+              {
+                "imageUrl": imgurl,
+                "action": {
+                  "type": "uri",
+                  "uri": link
+                }
+              }
+            ]
+          }
+        }
+      }
+
+      //画像
+      if (type == "img") {
+        let imgurl = params.get('imgurl')
+        content = {
+          "type": "template",
+          "altText": "写真が送信されました",
+          "template": {
+            "type": "image_carousel",
+            "columns": [
+              {
+                "imageUrl": imgurl
+              }
+            ]
+          }
+        }
+      }
+
       liff
         .init({
           liffId: '1656316634-09bXLKaV'
