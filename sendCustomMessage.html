@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Send Custom Message</title>
+  <title>Send Custom Message V1</title>
   <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
   <script type="text/javascript">
     // URLを取得
@@ -19,7 +19,7 @@
       //テキスト
       if (type == "txt") {
         let txt = params.get('txt')
-        content = {
+        var content = {
           "type": "text",
           "text": txt
         }
@@ -35,7 +35,7 @@
         if (stk == "anim") {
           imgurl = "https://stickershop.line-scdn.net/stickershop/v1/sticker/" + sid + "/iPhone/sticker_animation@2x.png"
         }
-        content = {
+        var content = {
           "type": "template",
           "altText": "BigStickerが送信されました",
           "template": {
@@ -56,7 +56,7 @@
       //画像
       if (type == "img") {
         let imgurl = params.get('imgurl')
-        content = {
+        var content = {
           "type": "template",
           "altText": "写真が送信されました",
           "template": {
