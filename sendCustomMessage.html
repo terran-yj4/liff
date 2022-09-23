@@ -53,23 +53,6 @@
         }
       }
 
-      //画像
-      if (type == "img") {
-        let imgurl = params.get('imgurl')
-        var content = {
-          "type": "template",
-          "altText": "写真が送信されました",
-          "template": {
-            "type": "image_carousel",
-            "columns": [
-              {
-                "imageUrl": imgurl
-              }
-            ]
-          }
-        }
-      }
-
       liff
         .init({
           liffId: '1656316634-09bXLKaV'
@@ -83,8 +66,7 @@
               liff.closeWindow()
             }).catch(function (error) {
               document.getElementById('log').value += 'sendMessagesText()=' + error + '\n';
-              alert("トークルームが開かれていません。\n送信先ルームを開いて実行してね。\n\n" + error)
-              liff.closeWindow()
+              alert("トークルームが開かれていないか\nURLパラメータに誤りがあります。\n送信先ルーム及び、リンクを確認し\n再度実行してください。\n\n" + error)
             });
         })
         .catch((err) => {
@@ -93,6 +75,42 @@
           liff.closeWindow()
         });
     });
+    var sendImage = () => {
+      let imgUrl = document.getElementById("sendFlexUrl").value
+      liff
+        .init({
+          liffId: '1656316634-09bXLKaV'
+        })
+        .then(() => {
+          liff.sendMessages([
+            {
+              "type": "template",
+              "altText": "写真が送信されました",
+              "template": {
+                "type": "image_carousel",
+                "columns": [
+                  {
+                    "imageUrl": imgUrl
+                  }
+                ]
+              }
+            }
+          ])
+            .then(function () {
+              document.getElementById('log').value += 'sendMessagesFlex completed\n';
+              liff.closeWindow()
+            }).catch(function (error) {
+              document.getElementById('log').value += 'sendMessagesText()=' + error + '\n';
+              alert("トークルームが開かれていないか\nURLパラメータに誤りがあります。\n送信先ルーム及び、リンクを確認し\n再度実行してください。\n\n" + error)
+              liff.closeWindow()
+            });
+        })
+        .catch((err) => {
+          document.getElementById('log').value = 'init ng\n' + err;
+          alert("initialization failed")
+          liff.closeWindow()
+        })
+    }
   </script>
 </head>
 
@@ -101,6 +119,9 @@
     <h3>sendMessage</h3>
     <input type="button" id="go" class="btn btn--orange btn--radius" value="実行" />
     <textarea id="log" placeholder="Log" style="width:96%;height:100px;"></textarea>
+    <p><br></p>
+    <input type="button" value="sendImage" onclick="sendImage()">
+    <textarea id="sendImage_imageUrl" placeholder="image_url" style="width:96%;height:20px;"></textarea>
   </div>
   <style>
     .btn--orange,
