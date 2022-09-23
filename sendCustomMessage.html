@@ -76,7 +76,7 @@
         });
     });
     var sendImage = () => {
-      let imgUrl = document.getElementById("sendFlexUrl").value
+      let imgUrl = document.getElementById("sendImage_imageUrl").value
       liff
         .init({
           liffId: '1656316634-09bXLKaV'
@@ -121,7 +121,7 @@
     <textarea id="log" placeholder="Log" style="width:96%;height:100px;"></textarea>
     <p><br></p>
     <input type="button" value="sendImage" onclick="sendImage()">
-    <textarea id="sendImage_imageUrl" placeholder="image_url" style="width:96%;height:20px;"></textarea>
+    <textarea id="sendImage_imageUrl" placeholder="image_url" style="width:96%;height:50px;"></textarea>
   </div>
   <style>
     .btn--orange,
