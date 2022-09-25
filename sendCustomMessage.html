@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Send Custom Message V1</title>
+  <title>SendCustomMessageV2</title>
   <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
   <script type="text/javascript">
     // URLを取得
@@ -14,18 +14,42 @@
     // それぞれのパラメータを変数に代入
     let type = params.get('type')
 
+    var sendMessage = (content) => {
+      liff
+        .init({
+          liffId: '1656316634-09bXLKaV'
+        })
+        .then(() => {
+          liff.sendMessages([
+            content
+          ])
+            .then(function () {
+              document.getElementById('log').value += 'sendMessages completed\n';
+              liff.closeWindow()
+            }).catch(function (error) {
+              document.getElementById('log').value += 'sendMessagesText()=' + error + '\n';
+              alert("トークルームが開かれていないか\nURLパラメータに誤りがあります。\n送信先ルーム及び、リンクを確認し\n再度実行してください。\n\n" + error)
+            });
+        })
+        .catch((err) => {
+          document.getElementById('log').value = 'init ng\n' + err;
+          alert("initialization failed")
+          liff.closeWindow()
+        });
+    }
+
+    // ページをロードした時に動く
     document.addEventListener("DOMContentLoaded", () => {
 
-      //テキスト
       if (type == "txt") {
         let txt = params.get('txt')
-        var content = {
+        let content = {
           "type": "text",
           "text": txt
         }
+        sendMessage(content)
       }
 
-      //スタンプ
       if (type == "stk") {
         let stk = params.get('stk')
         let sid = params.get('sid')
@@ -35,7 +59,7 @@
         if (stk == "anim") {
           imgurl = "https://stickershop.line-scdn.net/stickershop/v1/sticker/" + sid + "/iPhone/sticker_animation@2x.png"
         }
-        var content = {
+        let content = {
           "type": "template",
           "altText": "BigStickerが送信されました",
           "template": {
@@ -51,30 +75,14 @@
             ]
           }
         }
+        sendMessage(content)
       }
 
-      liff
-        .init({
-          liffId: '1656316634-09bXLKaV'
-        })
-        .then(() => {
-          liff.sendMessages([
-            content
-          ])
-            .then(function () {
-              document.getElementById('log').value += 'sendMessagesFlex completed\n';
-              liff.closeWindow()
-            }).catch(function (error) {
-              document.getElementById('log').value += 'sendMessagesText()=' + error + '\n';
-              alert("トークルームが開かれていないか\nURLパラメータに誤りがあります。\n送信先ルーム及び、リンクを確認し\n再度実行してください。\n\n" + error)
-            });
-        })
-        .catch((err) => {
-          document.getElementById('log').value = 'init ng\n' + err;
-          alert("initialization failed")
-          liff.closeWindow()
-        });
+      if (type == undefined) {
+        alert("")
+      }
     });
+
     var sendImage = () => {
       let imgUrl = document.getElementById("sendImage_imageUrl").value
       liff
