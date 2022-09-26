@@ -12,7 +12,7 @@
           liffId: '1656316634-JjjLNYoB'
         })
         .then(() => {
-          var imgurl = document.getElementById('sendMessagesImageOriginalContentUrl')
+          var imgurl = document.getElementById('sendMessagesImageOriginalContentUrl').value
           document.getElementById('go').addEventListener('click', () => {
             if (!liff.isInClient()) {
               document.getElementById('log').value += 'sendMessagesImage ng\n';
