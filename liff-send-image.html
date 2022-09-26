@@ -16,11 +16,24 @@
             if (!liff.isInClient()) {
               document.getElementById('log').value += 'sendMessagesImage ng\n';
             } else {
-              liff.sendMessages([{
-                'type': 'image',
-                'originalContentUrl': document.getElementById('sendMessagesImageOriginalContentUrl').value,
-                'previewImageUrl': document.getElementById('sendMessagesImagePreviewImageUrl').value
-              }]).then(function() {
+              liff.sendMessages([
+              {
+                "type": "template",
+                "altText": "写真が送信されました",
+                "template": {
+                  "type": "image_carousel",
+                  "columns": [
+                    {
+                      "imageUrl": imgusrl,
+                      "action": {
+                        "type": "uri",
+                        "uri": link
+                      }
+                    }
+                  ]
+                }
+              }
+            ]).then(function() {
                 document.getElementById('log').value += 'sendMessagesImage completed\n';
               }).catch(function(error) {
                 document.getElementById('log').value += 'sendMessagesImage()=' + error + '\n';
