@@ -21,33 +21,37 @@
         .then(() => {
           document.getElementById('go').addEventListener('click', () => {
             let imgurl = document.getElementById('imgurl').value
-            liff.sendMessages([
-              {
-                "type": "template",
-                "altText": "BigStickerが送信されました",
-                "template": {
-                  "type": "image_carousel",
-                  "columns": [
-                    {
-                      "imageUrl": imgurl,
-                      "action": {
-                        "type": "uri",
-                        "uri": imgurl
+            liff.shareTargetPicker(
+              [
+                {
+                  "type": "template",
+                  "altText": "写真を送信しました",
+                  "template": {
+                    "type": "image_carousel",
+                    "columns": [
+                      {
+                        "imageUrl": imgurl,
+                        "action": {
+                          "type": "uri",
+                          "uri": imgurl
+                        }
                       }
-                    }
-                  ]
+                    ]
+                  }
                 }
-              }
-            ])
+              ],
+              {
+                isMultiple: true,
+              })
               .then(function () {
                 document.getElementById('log').value += 'sendMessagesFlex completed\n';
                 liff.closeWindow()
               }).catch(function (error) {
                 document.getElementById('log').value += 'sendMessagesText()=' + error + '\n';
-                alert("トークルームが開かれていません。\n送信先ルームを開いて実行してね。\n\n"+error)
+                alert("トークルームが開かれていません。\n送信先ルームを開いて実行してね。\n\n" + error)
                 liff.closeWindow()
               });
-            })
+          })
         })
         .catch((err) => {
           document.getElementById('log').value = 'init ng\n' + err;
