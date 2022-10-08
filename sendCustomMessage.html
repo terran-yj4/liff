@@ -12,23 +12,17 @@
     let url = new URL(window.location.href);
     // URLSearchParamsオブジェクトを取得
     let params = url.searchParams;
-    // それぞれのパラメータを変数に代入
-    let type = params.get('type')
 
-    var sendMessage = () => {
+    var sendMessage = (type,title,text,altText,url,stk,sid,pkg) => {
       if (type == "txt") {
-        let txt = params.get('txt')
         var content = {
           "type": "text",
-          "text": txt
+          "text": text
         }
       }
       if (type == "stk") {
-        let stk = params.get('stk')
-        let sid = params.get('sid')
-        let pkgid = params.get('pkg')
         let imgurl = "https://stickershop.line-scdn.net/stickershop/v1/sticker/" + sid + "/iPhone/sticker@2x.png"
-        let link = "https://line.me/S/sticker/" + pkgid
+        let link = "https://line.me/S/sticker/" + pkg
         if (stk == "anim") {
           imgurl = "https://stickershop.line-scdn.net/stickershop/v1/sticker/" + sid + "/iPhone/sticker_animation@2x.png"
         }
@@ -73,19 +67,30 @@
     }
 
     var buttonClick = () => {
-      var messageType = document.getElementById("messageType").value;
+      var type = document.getElementById("messageType").value;
       var title = document.getElementById("ttl").value;
       var text = document.getElementById("txt").value;
       var altText = document.getElementById("alttxt").value;
       var url = document.getElementById("url").value;
-      sendMessage(messageType,title,text,altText,url)
+      var stk = document.getElementById("stk").value;
+      var sid = document.getElementById("sid").value;
+      var pkg = document.getElementById("pkg").value;
+      sendMessage(type,title,text,altText,url,stk,sid,pkg)
     }
 
     // ページをロードした時に動く
     document.addEventListener("DOMContentLoaded", () => {
-      
+      // それぞれのパラメータを変数に代入
+      var type = params.get('type')
       if (type != undefined) {
-        sendMessage()
+        var title = params.get('title')
+        var text = params.get('txt')
+        var altText = "カスタムメッセージが送信されました。"
+        var url = params.get('url')
+        var stk = params.get('stk')
+        var sid = params.get('sid')
+        var pkg = params.get('pkg')
+        sendMessage(type,title,text,altText,url,stk,sid,pkg)
       }
     });
 
@@ -136,7 +141,7 @@
 
 <body>
   <div>
-    <h3>sendMessage ver.2.1.4</h3>
+    <h3>sendMessage ver.2.1.5</h3>
     <select id="messageType">
       <option value="txt">Text</option>
       <option value="stk">Sticker</option>
@@ -155,6 +160,12 @@
     <textarea id="alttxt" placeholder="alt_text" style="width:96%;height:16px;"></textarea>
     <p>URL</p>
     <textarea id="url" placeholder="url" style="width:96%;height:16px"></textarea>
+    <p>stk</p>
+    <textarea id="stk" placeholder="url" style="width:96%;height:16px"></textarea>
+    <p>stickerId</p>
+    <textarea id="sid" placeholder="url" style="width:96%;height:16px"></textarea>
+    <p>packageId</p>
+    <textarea id="pkg" placeholder="url" style="width:96%;height:16px"></textarea>
   </div>
   <div>
     <ul>
