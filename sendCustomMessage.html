@@ -43,6 +43,22 @@
           }
         }
       }
+      if (type == "image") {
+        var content = {
+          "type": "template",
+          "altText": "写真が送信されました",
+          "template": {
+            "type": "image_carousel",
+            "columns": [
+              {
+                "imageUrl": url
+              }
+            ]
+          }
+        }
+      }
+
+
       liff
         .init({
           liffId: '1656316634-09bXLKaV'
@@ -145,7 +161,7 @@
     <select id="messageType">
       <option value="txt">Text</option>
       <option value="stk">Sticker</option>
-      <option value="img">Image</option>
+      <option value="image">Image</option>
       <option value="mp4">Video</option>
       <option value="mp3">Audio</option>
       <option value="flex">Flex</option>
