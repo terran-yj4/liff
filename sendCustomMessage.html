@@ -7,13 +7,26 @@
   <title>SendCustomMessageV2</title>
   <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
   <script type="text/javascript">
+    //styleのdisplayを変更する関数
+    let resetDisplay = () => {
+      document.getElementById('ttlBox').style.display = "none";
+      document.getElementById('txtBox').style.display = "none";
+      document.getElementById('altTxtBox').style.display = "none";
+      document.getElementById('urlBox').style.display = "none";
+      document.getElementById('stkBox').style.display = "none";
+      document.getElementById('sidBox').style.display = "none";
+      document.getElementById('pkgBox').style.display = "none";
+    };
+    let setDisplay = (el) => {
+      el.style.display = '';
+    }
     
     // URLを取得
     let url = new URL(window.location.href);
     // URLSearchParamsオブジェクトを取得
     let params = url.searchParams;
 
-    var sendMessage = (type,title,text,altText,url,stk,sid,pkg) => {
+    var sendMessage = (type, title, text, altText, url, stk, sid, pkg) => {
       if (type == "txt") {
         var content = {
           "type": "text",
@@ -61,28 +74,101 @@
           }
         }
       }
-      if (content){
+      if (type == "video"){
+
+      }
+      if (type == "audio"){
+
+      }
+      if (type == "flex"){
+        var content = {
+              "type": "flex",
+              "altText": altText,
+              "contents": {
+                "type": "bubble",
+                "header": {
+                  "type": "box",
+                  "layout": "baseline",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": title,
+                      "align": "center"
+                    }
+                  ],
+                  "action": {
+                    "type": "uri",
+                    "label": "action",
+                    "uri": url
+                  },
+                  "backgroundColor": "#ff9944",
+                  "paddingAll": "8px"
+                },
+                "body": {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": text,
+                      "wrap": true
+                    }
+                  ],
+                  "action": {
+                    "type": "uri",
+                    "label": "action",
+                    "uri": url
+                  }
+                },
+                "footer": {
+                  "type": "box",
+                  "layout": "horizontal",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "© 2021 Ybot",
+                      "size": "xs",
+                      "align": "center"
+                    }
+                  ],
+                  "action": {
+                    "type": "uri",
+                    "label": "action",
+                    "uri": url
+                  },
+                  "paddingAll": "6px"
+                },
+                "styles": {
+                  "footer": {
+                    "backgroundColor": "#c0c0c0"
+                  }
+                }
+              }
+            }
+      }
+
+      if (content) {
         liff
-        .init({
-          liffId: '1656316634-09bXLKaV'
-        })
-        .then(() => {
-          liff.sendMessages([
-            content
-          ])
-            .then(function () {
-              document.getElementById('log').value += 'sendMessages completed\n';
-              liff.closeWindow()
-            }).catch(function (error) {
-              document.getElementById('log').value += 'sendMessagesText()=' + error + '\n';
-              alert("トークルームが開かれていないか\nURLパラメータに誤りがあります。\n送信先ルーム及び、リンクを確認し\n再度実行してください。\n\n" + error)
-            });
-        })
-        .catch((err) => {
-          document.getElementById('log').value = 'init ng\n' + err;
-          alert("initialization failed")
-          liff.closeWindow()
-        });
+          .init({
+            liffId: '1656316634-09bXLKaV'
+          })
+          .then(() => {
+            liff.sendMessages([
+              content
+            ])
+              .then(function () {
+                document.getElementById('log').value += 'sendMessages completed\n';
+                liff.closeWindow()
+              }).catch(function (error) {
+                document.getElementById('log').value += 'sendMessagesText()=' + error + '\n';
+                alert("トークルームが開かれていないか\nURLパラメータに誤りがあります。\n送信先ルーム及び、リンクを確認し\n再度実行してください。\n\n" + error)
+              });
+          })
+          .catch((err) => {
+            document.getElementById('log').value = 'init ng\n' + err;
+            alert("initialization failed")
+            liff.closeWindow()
+          });
       }
     }
 
@@ -90,12 +176,12 @@
       var type = document.getElementById("messageType").value;
       var title = document.getElementById("ttl").value;
       var text = document.getElementById("txt").value;
-      var altText = document.getElementById("alttxt").value;
+      var altText = document.getElementById("altTxt").value;
       var url = document.getElementById("url").value;
       var stk = document.getElementById("stk").value;
       var sid = document.getElementById("sid").value;
       var pkg = document.getElementById("pkg").value;
-      sendMessage(type,title,text,altText,url,stk,sid,pkg)
+      sendMessage(type, title, text, altText, url, stk, sid, pkg)
     }
 
     // ページをロードした時に動く
@@ -110,51 +196,52 @@
         var stk = params.get('stk')
         var sid = params.get('sid')
         var pkg = params.get('pkg')
-        sendMessage(type,title,text,altText,url,stk,sid,pkg)
+        sendMessage(type, title, text, altText, url, stk, sid, pkg)
       }
     });
 
-    var sendImage = () => {
-      let imgUrl = document.getElementById("sendImage_imageUrl").value
-      liff
-        .init({
-          liffId: '1656316634-09bXLKaV'
-        })
-        .then(() => {
-          liff.sendMessages([
-            {
-              "type": "template",
-              "altText": "写真が送信されました",
-              "template": {
-                "type": "image_carousel",
-                "columns": [
-                  {
-                    "imageUrl": imgUrl
-                  }
-                ]
-              }
-            }
-          ])
-            .then(function () {
-              document.getElementById('log').value += 'sendMessagesFlex completed\n';
-              liff.closeWindow()
-            }).catch(function (error) {
-              document.getElementById('log').value += 'sendMessagesText()=' + error + '\n';
-              alert("トークルームが開かれていないか\nURLパラメータに誤りがあります。\n送信先ルーム及び、リンクを確認し\n再度実行してください。\n\n" + error)
-              liff.closeWindow()
-            });
-        })
-        .catch((err) => {
-          document.getElementById('log').value = 'init ng\n' + err;
-          alert("initialization failed")
-          liff.closeWindow()
-        })
-    }
-    
     // var send_data = new XMLHttpRequest();
     // send_data.open('POST', 'https://script.google.com/macros/s/AKfycbx38FsqcYedVxrRBJPnW4PpbA4umuLhJkMhgfgjJwTFg9r7_bAkWP4jqciBzdiUMU5e/exec');
     // send_data.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
     // send_data.send('type=11');
+
+    var valueChange = () => {
+      let switchBtn = document.getElementsByName('messageType')[0].value;
+      console.log(switchBtn)
+      resetDisplay();
+      //表示・非表示を切り替える要素を取得
+      let ttlBox = document.getElementById('ttlBox');
+      let txtBox = document.getElementById('txtBox');
+      let altTxtBox = document.getElementById('altTxtBox');
+      let urlBox = document.getElementById('urlBox');
+      let stkBox = document.getElementById('stkBox');
+      let sidBox = document.getElementById('sidBox');
+      let pkgBox = document.getElementById('pkgBox');
+
+      if (switchBtn == "txt") {
+        setDisplay(txtBox);
+      }
+      else if (switchBtn == "stk") {
+        setDisplay(stkBox);
+        setDisplay(sidBox);
+        setDisplay(pkgBox);
+      }
+      else if (switchBtn == "image") {
+        setDisplay(urlBox);
+      }
+      else if (switchBtn == "mp4") {
+        setDisplay(urlBox);
+      }
+      else if (switchBtn == "mp3") {
+        setDisplay(urlBox);
+      }
+      else if (switchBtn == "flex") {
+        setDisplay(ttlBox);
+        setDisplay(txtBox);
+        setDisplay(altTxtBox);
+        setDisplay(urlBox);
+      }
+    }
 
   </script>
 </head>
@@ -162,7 +249,7 @@
 <body>
   <div>
     <h3>sendMessage ver.2.1.7</h3>
-    <select id="messageType">
+    <select id="messageType" name="messageType" onchange="valueChange();">
       <option value="txt">Text</option>
       <option value="stk">Sticker</option>
       <option value="image">Image</option>
@@ -171,21 +258,35 @@
       <option value="flex">Flex</option>
     </select>
     <input type="button" onclick="buttonClick()" class="btn btn--orange btn--radius" value="実行" />
-    <textarea id="log" placeholder="output log" style="width:96%;height:100px;"></textarea>
-    <p>タイトル</p>
-    <textarea id="ttl" placeholder="ttl" style="width:96%;height:16px;"></textarea>
-    <p>テキスト</p>
-    <textarea id="txt" placeholder="text" style="width:96%;height:16px;"></textarea>
-    <p>オルトテキスト</p>
-    <textarea id="alttxt" placeholder="alt_text" style="width:96%;height:16px;"></textarea>
-    <p>URL</p>
-    <textarea id="url" placeholder="url" style="width:96%;height:16px"></textarea>
-    <p>stk</p>
-    <textarea id="stk" placeholder="url" style="width:96%;height:16px"></textarea>
-    <p>stickerId</p>
-    <textarea id="sid" placeholder="url" style="width:96%;height:16px"></textarea>
-    <p>packageId</p>
-    <textarea id="pkg" placeholder="url" style="width:96%;height:16px"></textarea>
+    <textarea id="log" placeholder="何も入力しないでください。ツール実行時のログが表示されます。" style="width:96%;height:100px;"></textarea>
+    <div id="ttlBox">
+      <p>タイトル</p>
+      <textarea id="ttl" placeholder="ttl" style="width:96%;height:16px;"></textarea>
+    </div>
+    <div id="txtBox">
+      <p>テキスト</p>
+      <textarea id="txt" placeholder="text" style="width:96%;height:16px;"></textarea>
+    </div>
+    <div id="altTxtBox">
+      <p>オルトテキスト</p>
+      <textarea id="altTxt" placeholder="alt_text" style="width:96%;height:16px;"></textarea>
+    </div>
+    <div id="urlBox">
+      <p>URL</p>
+      <textarea id="url" placeholder="url" style="width:96%;height:16px"></textarea>
+    </div>
+    <div id="stkBox">
+      <p>stk</p>
+      <textarea id="stk" placeholder="anim/noanim" style="width:96%;height:16px"></textarea>
+    </div>
+    <div id="sidBox">
+      <p>stickerId</p>
+      <textarea id="sid" placeholder="1" style="width:96%;height:16px"></textarea>
+    </div>
+    <div id="pkgBox">
+      <p>packageId</p>
+      <textarea id="pkg" placeholder="1" style="width:96%;height:16px"></textarea>
+    </div>
   </div>
   <div> <!--メッセージタイプに対応する、要素の一覧-->
     <ul>
