@@ -184,6 +184,10 @@
       sendMessage(type, title, text, altText, url, stk, sid, pkg)
     }
 
+    var copyLink = () => {
+      console.log("未実装")
+    }
+
     // ページをロードした時に動く
     document.addEventListener("DOMContentLoaded", () => {
       // それぞれのパラメータを変数に代入
@@ -248,7 +252,7 @@
 
 <body>
   <div>
-    <h3>sendMessage ver.2.1.7</h3>
+    <h3>sendMessage ver.2.1.8</h3>
     <select id="messageType" name="messageType" onchange="valueChange();">
       <option value="txt">Text</option>
       <option value="stk">Sticker</option>
@@ -258,6 +262,7 @@
       <option value="flex">Flex</option>
     </select>
     <input type="button" onclick="buttonClick()" class="btn btn--orange btn--radius" value="実行" />
+    <input type="button" onclick="copyLink()" class="btn btn--blue btn--radius" value="条件のurlをコピー" />
     <textarea id="log" placeholder="何も入力しないでください。ツール実行時のログが表示されます。" style="width:96%;height:100px;"></textarea>
     <div id="ttlBox">
       <p>タイトル</p>
@@ -315,6 +320,18 @@
     a.btn--orange:hover {
       color: #fff;
       background: #f56500;
+    }
+    
+    .btn--blue,
+    a.btn--blue {
+      color: #fff;
+      background-color: #0000ff;
+    }
+
+    .btn--blue:hover,
+    a.btn--blue:hover {
+      color: #fff;
+      background: #0000ff;
     }
 
     a.btn--radius {
