@@ -75,10 +75,8 @@
         }
       }
       if (type == "video"){
-
       }
       if (type == "audio"){
-
       }
       if (type == "flex"){
         var content = {
@@ -190,6 +188,7 @@
 
     // ページをロードした時に動く
     document.addEventListener("DOMContentLoaded", () => {
+      resetDisplay();
       // それぞれのパラメータを変数に代入
       var type = params.get('type')
       if (type != undefined) {
@@ -203,11 +202,6 @@
         sendMessage(type, title, text, altText, url, stk, sid, pkg)
       }
     });
-
-    // var send_data = new XMLHttpRequest();
-    // send_data.open('POST', 'https://script.google.com/macros/s/AKfycbx38FsqcYedVxrRBJPnW4PpbA4umuLhJkMhgfgjJwTFg9r7_bAkWP4jqciBzdiUMU5e/exec');
-    // send_data.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
-    // send_data.send('type=11');
 
     var valueChange = () => {
       let switchBtn = document.getElementsByName('messageType')[0].value;
@@ -254,6 +248,7 @@
   <div>
     <h3>sendMessage ver.2.1.8</h3>
     <select id="messageType" name="messageType" onchange="valueChange();">
+      <option hidden>メッセージタイプを選択</option>
       <option value="txt">Text</option>
       <option value="stk">Sticker</option>
       <option value="image">Image</option>
