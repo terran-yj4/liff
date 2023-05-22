@@ -25,7 +25,7 @@
     let url = new URL(window.location.href);
     // URLSearchParamsオブジェクトを取得
     let params = url.searchParams;
-    var sendMessage = (type, title, text, altText, url, stk, sid, pkg, ft, fu, fi) => {
+    var sendMessage = (type, title, text, altText, url, stk, sid, pkg, ft="", fu, fi) => {
       if (type == "txt") {
         var content = {
           "type": "text",
@@ -154,7 +154,15 @@
               }
             }
       }
-      
+      if (ft != "") {
+        footer = {
+            "label": ft,
+            "linkUrl": fu,
+            "iconUrl": fi
+          }
+        content.sentBy = footer
+      }
+      document.getElementById('log').value += 'content:\n' + content + '\n';
       if (content) {
         liff
           .init({
@@ -261,7 +269,7 @@
 
 <body>
   <div>
-    <h3>sendMessage ver.2.1.12</h3>
+    <h3>sendMessage ver.2.1.13</h3>
     <select id="messageType" name="messageType" onchange="valueChange();">
       <option hidden>メッセージタイプを選択</option>
       <option value="txt">Text</option>
