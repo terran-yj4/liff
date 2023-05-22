@@ -16,16 +16,25 @@
       document.getElementById('stkBox').style.display = "none";
       document.getElementById('sidBox').style.display = "none";
       document.getElementById('pkgBox').style.display = "none";
+      document.getElementById('footerTxtBox').style.display = "none";
+      document.getElementById('footerUrlBox').style.display = "none";
+      document.getElementById('pkgBoxIconUrlBox').style.display = "none";
+      document.getElementById('jsonBox').style.display = "none";
     };
     let setDisplay = (el) => {
       el.style.display = '';
+    }
+    let setFooterDisplay = () => {
+      document.getElementById('footerTxtBox').style.display = '';
+      document.getElementById('footerUrlBox').style.display = '';
+      document.getElementById('footerIconUrlBox').style.display = '';
     }
     
     // URLを取得
     let url = new URL(window.location.href);
     // URLSearchParamsオブジェクトを取得
     let params = url.searchParams;
-    var sendMessage = (type, title, text, altText, url, stk, sid, pkg, ft="", fu, fi) => {
+    var sendMessage = (type, title, text, altText, url, stk, sid, pkg, ft="", fu, fi, json) => {
       if (type == "txt") {
         var content = {
           "type": "text",
@@ -162,6 +171,9 @@
           }
         content.sentBy = footer
       }
+      if (type == "json") {
+        content = JSON.stringify(json)
+      }
       document.getElementById('log').value += 'content:\n' + content + '\n';
       if (content) {
         liff
@@ -200,7 +212,8 @@
       var ft = document.getElementById("footerTxt").value;
       var fu = document.getElementById("footerUrl").value;
       var fi = document.getElementById("footerIconUrl").value;
-      sendMessage(type, title, text, altText, url, stk, sid, pkg, ft, fu, fi)
+      var json = document.getElementById("json").value;
+      sendMessage(type, title, text, altText, url, stk, sid, pkg, ft, fu, fi, json)
     }
 
     var copyLink = () => {
@@ -238,29 +251,39 @@
       let stkBox = document.getElementById('stkBox');
       let sidBox = document.getElementById('sidBox');
       let pkgBox = document.getElementById('pkgBox');
+      let jsonBox = document.getElementById('jsonBox');
 
       if (switchBtn == "txt") {
         setDisplay(txtBox);
+        setFooterDisplay();
       }
       else if (switchBtn == "stk") {
         setDisplay(stkBox);
         setDisplay(sidBox);
         setDisplay(pkgBox);
+        setFooterDisplay();
       }
       else if (switchBtn == "image") {
         setDisplay(urlBox);
+        setFooterDisplay();
       }
       else if (switchBtn == "mp4") {
         setDisplay(urlBox);
+        setFooterDisplay();
       }
       else if (switchBtn == "mp3") {
         setDisplay(urlBox);
+        setFooterDisplay();
       }
       else if (switchBtn == "flex") {
         setDisplay(ttlBox);
         setDisplay(txtBox);
         setDisplay(altTxtBox);
         setDisplay(urlBox);
+        setFooterDisplay();
+      }
+      else if (switchBtn == "json") {
+        setDisplay(jsonBox);
       }
     }
 
@@ -269,7 +292,7 @@
 
 <body>
   <div>
-    <h3>sendMessage ver.2.1.13</h3>
+    <h3>sendMessage ver.2.2.0</h3>
     <select id="messageType" name="messageType" onchange="valueChange();">
       <option hidden>メッセージタイプを選択</option>
       <option value="txt">Text</option>
@@ -278,10 +301,10 @@
       <option value="mp4">Video</option>
       <option value="mp3">Audio</option>
       <option value="flex">Flex</option>
+      <option value="json">Json</option>
     </select>
     <input type="button" onclick="buttonClick()" class="btn btn--orange btn--radius" value="実行" />
     <input type="button" onclick="copyLink()" class="btn btn--blue btn--radius" value="条件のurlをコピー" />
-    <textarea id="log" placeholder="何も入力しないでください。ツール実行時のログが表示されます。" style="width:96%;height:100px;"></textarea>
     <div id="ttlBox">
       <p>タイトル</p>
       <textarea id="ttl" placeholder="ttl" style="width:96%;height:16px;"></textarea>
@@ -310,7 +333,7 @@
       <p>packageId</p>
       <textarea id="pkg" placeholder="1" style="width:96%;height:16px"></textarea>
     </div>
-
+    
     <div id="footerTxtBox">
       <p>フッターテキスト</p>
       <textarea id="footerTxt" placeholder="footerText" style="width:96%;height:16px"></textarea>
@@ -323,7 +346,12 @@
       <p>フッターアイコンURL</p>
       <textarea id="footerIconUrl" placeholder="footerIconUrl" style="width:96%;height:16px"></textarea>
     </div>
+    <div id="jsonBox">
+      <p>jsonData</p>
+      <textarea id="json" placeholder="{type': 'text, 'text': 'example-json'}" style="width:96%;height:16px"></textarea>
+    </div>
   </div>
+  <textarea id="log" placeholder="何も入力しないでください。ツール実行時のログが表示されます。" style="width:96%;height:100px;"></textarea>
   <div> <!--メッセージタイプに対応する、要素の一覧-->
     <ul>
       <li>text</li>
