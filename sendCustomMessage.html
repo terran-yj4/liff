@@ -26,22 +26,11 @@
     // URLSearchParamsオブジェクトを取得
     let params = url.searchParams;
 
-    var sendMessage = (type, title, text, altText, url, stk, sid, pkg) => {
+    var sendMessage = (type, title, text, altText, url, stk, sid, pkg, ft, fu, fi) => {
       if (type == "txt") {
         var content = {
           "type": "text",
           "text": text
-        }
-      }
-      if (type == "txt2") {
-        var content = {
-          "type": 'text',
-          "text":"getParameterByName('msg')",
-          "sentBy": {
-            "label":' | ©Autobots',
-            "iconUrl": 'https://i.ibb.co/MkJWTQv/autobots-rolling.gif',
-            "linkUrl": 'https://ren.imjustgood.com/p/autobots'
-          }
         }
       }
       if (type == "stk") {
@@ -155,7 +144,35 @@
               }
             }
       }
-      
+      if (ft != "") {
+        content.sentBy.label = ft
+        if (fu != "") {
+          content.sentBy.linkUrl = fu
+        }
+        if (fi != ""){
+          content.sentBy.iconUrl = fi
+      }
+      if (type == "txt2") {
+        var content = {
+          "type": "text",
+          "text": text,
+          "sentBy": { "label": "ft" }
+        }
+      }
+      if (type == "txt3") {
+        var content = {
+          "type": "text",
+          "text": text,
+          "sentBy": { "label": "ft", "linkUrl": "https://line.me/R/nv/profilePopup/mid=u6983d8fc178ca5054b473bd49b2b3666" }
+        }
+      }
+      if (type == "txt4") {
+        var content = {
+          "type": "text",
+          "text": text,
+          "sentBy": { "label": "ft", "linkUrl": "https://line.me/R/nv/profilePopup/mid=u6983d8fc178ca5054b473bd49b2b3666", "iconUrl": "https://obs.line-apps.com/os/p/u6983d8fc178ca5054b473bd49b2b3666" }
+        }
+      }
       if (content) {
         liff
           .init({
@@ -190,7 +207,10 @@
       var stk = document.getElementById("stk").value;
       var sid = document.getElementById("sid").value;
       var pkg = document.getElementById("pkg").value;
-      sendMessage(type, title, text, altText, url, stk, sid, pkg)
+      var ft = document.getElementById("footerTxt").value;
+      var fu = document.getElementById("footerUrl").value;
+      var fi = document.getElementById("footerIconUrl").value;
+      sendMessage(type, title, text, altText, url, stk, sid, pkg, ft, fu, fi)
     }
 
     var copyLink = () => {
@@ -229,6 +249,9 @@
 
       if (switchBtn == "txt") {
         setDisplay(txtBox);
+        setDisplay(urlBox);
+        setDisplay(altTxtBox);
+        setDisplay();
       }
       else if (switchBtn == "stk") {
         setDisplay(stkBox);
@@ -257,7 +280,7 @@
 
 <body>
   <div>
-    <h3>sendMessage ver.2.1.11</h3>
+    <h3>sendMessage ver.2.2.0</h3>
     <select id="messageType" name="messageType" onchange="valueChange();">
       <option hidden>メッセージタイプを選択</option>
       <option value="txt">Text</option>
@@ -297,6 +320,19 @@
     <div id="pkgBox">
       <p>packageId</p>
       <textarea id="pkg" placeholder="1" style="width:96%;height:16px"></textarea>
+    </div>
+
+    <div id="footerTxtBox">
+      <p>フッターテキスト</p>
+      <textarea id="footerTxt" placeholder="footerText" style="width:96%;height:16px"></textarea>
+    </div>
+    <div id="footerUrBox">
+      <p>フッターURL</p>
+      <textarea id="footerUrl" placeholder="footerUrl" style="width:96%;height:16px"></textarea>
+    </div>
+    <div id="footerIconUrlBox">
+      <p>フッターアイコンURL</p>
+      <textarea id="footerIconUrl" placeholder="footerIconUrl" style="width:96%;height:16px"></textarea>
     </div>
   </div>
   <div> <!--メッセージタイプに対応する、要素の一覧-->
