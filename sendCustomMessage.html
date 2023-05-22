@@ -18,7 +18,7 @@
       document.getElementById('pkgBox').style.display = "none";
       document.getElementById('footerTxtBox').style.display = "none";
       document.getElementById('footerUrlBox').style.display = "none";
-      document.getElementById('pkgBoxIconUrlBox').style.display = "none";
+      document.getElementById('footerIconUrlBox').style.display = "none";
       document.getElementById('jsonBox').style.display = "none";
     };
     let setDisplay = (el) => {
@@ -172,7 +172,7 @@
         content.sentBy = footer
       }
       if (type == "json") {
-        content = JSON.stringify(json)
+        content = JSON.parse(json)
       }
       document.getElementById('log').value += 'content:\n' + content + '\n';
       if (content) {
@@ -292,7 +292,7 @@
 
 <body>
   <div>
-    <h3>sendMessage ver.2.2.0</h3>
+    <h3>sendMessage ver.2.2.1</h3>
     <select id="messageType" name="messageType" onchange="valueChange();">
       <option hidden>メッセージタイプを選択</option>
       <option value="txt">Text</option>
@@ -338,7 +338,7 @@
       <p>フッターテキスト</p>
       <textarea id="footerTxt" placeholder="footerText" style="width:96%;height:16px"></textarea>
     </div>
-    <div id="footerUrBox">
+    <div id="footerUrlBox">
       <p>フッターURL</p>
       <textarea id="footerUrl" placeholder="footerUrl" style="width:96%;height:16px"></textarea>
     </div>
