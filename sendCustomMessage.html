@@ -25,7 +25,6 @@
     let url = new URL(window.location.href);
     // URLSearchParamsオブジェクトを取得
     let params = url.searchParams;
-
     var sendMessage = (type, title, text, altText, url, stk, sid, pkg, ft, fu, fi) => {
       if (type == "txt") {
         var content = {
@@ -206,19 +205,17 @@
       // それぞれのパラメータを変数に代入
       var type = params.get('type')
       var txt = params.get('txt')
+      var title = params.get('title')
+      var text = params.get('txt')
+      var altText = "カスタムメッセージが送信されました。"
+      var url = params.get('url')
+      var stk = params.get('stk')
+      var sid = params.get('sid')
+      var pkg = params.get('pkg')
       var ft = params.get('ft')
       var fu = params.get('fu')
       var fi = params.get('fi')
-      if (type != undefined) {
-        var title = params.get('title')
-        var text = params.get('txt')
-        var altText = "カスタムメッセージが送信されました。"
-        var url = params.get('url')
-        var stk = params.get('stk')
-        var sid = params.get('sid')
-        var pkg = params.get('pkg')
-      }
-      sendMessage(type, title, text, altText, url, stk, sid, pkg)
+      sendMessage(type, title, text, altText, url, stk, sid, pkg, ft, fu, fi)
     });
 
     var valueChange = () => {
@@ -236,9 +233,6 @@
 
       if (switchBtn == "txt") {
         setDisplay(txtBox);
-        setDisplay(urlBox);
-        setDisplay(altTxtBox);
-        setDisplay();
       }
       else if (switchBtn == "stk") {
         setDisplay(stkBox);
@@ -267,7 +261,7 @@
 
 <body>
   <div>
-    <h3>sendMessage ver.2.1.11</h3>
+    <h3>sendMessage ver.2.1.12</h3>
     <select id="messageType" name="messageType" onchange="valueChange();">
       <option hidden>メッセージタイプを選択</option>
       <option value="txt">Text</option>
