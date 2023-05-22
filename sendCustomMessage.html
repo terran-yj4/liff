@@ -33,6 +33,17 @@
           "text": text
         }
       }
+      if (type == "txt2") {
+        var content = {
+          "type": 'text',
+          "text": text,
+          "sentBy": {
+            "label": ' | ©Autobots',
+            "iconUrl": 'https://i.ibb.co/MkJWTQv/autobots-rolling.gif',
+            "linkUrl": 'https://ren.imjustgood.com/p/autobots'
+          }
+        }
+      }
       if (type == "stk") {
         let imgurl = "https://stickershop.line-scdn.net/stickershop/v1/sticker/" + sid + "/iPhone/sticker@2x.png"
         let link = "https://line.me/S/sticker/" + pkg
@@ -144,35 +155,7 @@
               }
             }
       }
-      if (ft != "") {
-        content.sentBy.label = ft
-        if (fu != "") {
-          content.sentBy.linkUrl = fu
-        }
-        if (fi != ""){
-          content.sentBy.iconUrl = fi
-      }
-      if (type == "txt2") {
-        var content = {
-          "type": "text",
-          "text": text,
-          "sentBy": { "label": "ft" }
-        }
-      }
-      if (type == "txt3") {
-        var content = {
-          "type": "text",
-          "text": text,
-          "sentBy": { "label": "ft", "linkUrl": "https://line.me/R/nv/profilePopup/mid=u6983d8fc178ca5054b473bd49b2b3666" }
-        }
-      }
-      if (type == "txt4") {
-        var content = {
-          "type": "text",
-          "text": text,
-          "sentBy": { "label": "ft", "linkUrl": "https://line.me/R/nv/profilePopup/mid=u6983d8fc178ca5054b473bd49b2b3666", "iconUrl": "https://obs.line-apps.com/os/p/u6983d8fc178ca5054b473bd49b2b3666" }
-        }
-      }
+      
       if (content) {
         liff
           .init({
@@ -222,6 +205,10 @@
       resetDisplay();
       // それぞれのパラメータを変数に代入
       var type = params.get('type')
+      var txt = params.get('txt')
+      var ft = params.get('ft')
+      var fu = params.get('fu')
+      var fi = params.get('fi')
       if (type != undefined) {
         var title = params.get('title')
         var text = params.get('txt')
@@ -230,8 +217,8 @@
         var stk = params.get('stk')
         var sid = params.get('sid')
         var pkg = params.get('pkg')
-        sendMessage(type, title, text, altText, url, stk, sid, pkg)
       }
+      sendMessage(type, title, text, altText, url, stk, sid, pkg)
     });
 
     var valueChange = () => {
@@ -280,7 +267,7 @@
 
 <body>
   <div>
-    <h3>sendMessage ver.2.2.0</h3>
+    <h3>sendMessage ver.2.1.11</h3>
     <select id="messageType" name="messageType" onchange="valueChange();">
       <option hidden>メッセージタイプを選択</option>
       <option value="txt">Text</option>
