@@ -13,6 +13,7 @@
       document.getElementById('txtBox').style.display = "none";
       document.getElementById('altTxtBox').style.display = "none";
       document.getElementById('urlBox').style.display = "none";
+      document.getElementById('previewImgUrlBox').style.display = "none";
       document.getElementById('stkBox').style.display = "none";
       document.getElementById('sidBox').style.display = "none";
       document.getElementById('pkgBox').style.display = "none";
@@ -34,7 +35,7 @@
     let url = new URL(window.location.href);
     // URLSearchParamsオブジェクトを取得
     let params = url.searchParams;
-    var sendMessage = (type="", title="", text="", altText="", url="", stk="", sid="", pkg="", ft="", fu="", fi="", json="") => {
+    var sendMessage = (type="", title="", text="", altText="", url="", piu="", stk="", sid="", pkg="", ft="", fu="", fi="", json="") => {
       if (type == "txt") {
         var content = {
           "type": "text",
@@ -77,23 +78,17 @@
       }
       if (type == "image") {
         var content = {
-          "type": "template",
-          "altText": "BigStickerが送信されました",
-          "template": {
-            "type": "image_carousel",
-            "columns": [
-              {
-                "imageUrl": url,
-                "action": {
-                  "type": "uri",
-                  "uri": url
-                }
-              }
-            ]
-          }
+          "type": "image",
+          "originalContentUrl": url,
+          "previewImageUrl": url
         }
       }
       if (type == "video"){
+        var content = {
+          "type": "video",
+          "originalContentUrl": url,
+          "previewImageUrl": piu
+        }
       }
       if (type == "audio"){
       }
@@ -206,6 +201,7 @@
       var text = document.getElementById("txt").value;
       var altText = document.getElementById("altTxt").value;
       var url = document.getElementById("url").value;
+      var piu = document.getElementById("previewImgUrl").value;
       var stk = document.getElementById("stk").value;
       var sid = document.getElementById("sid").value;
       var pkg = document.getElementById("pkg").value;
@@ -213,7 +209,7 @@
       var fu = document.getElementById("footerUrl").value;
       var fi = document.getElementById("footerIconUrl").value;
       var json = document.getElementById("json").value;
-      sendMessage(type, title, text, altText, url, stk, sid, pkg, ft, fu, fi, json)
+      sendMessage(type, title, text, altText, url, piu, stk, sid, pkg, ft, fu, fi, json)
     }
 
     var copyLink = () => {
@@ -230,6 +226,7 @@
       var text = params.get('txt')
       var altText = "カスタムメッセージが送信されました。"
       var url = params.get('url')
+      var piu = params.get('piu')
       var stk = params.get('stk')
       var sid = params.get('sid')
       var pkg = params.get('pkg')
@@ -248,6 +245,7 @@
       let txtBox = document.getElementById('txtBox');
       let altTxtBox = document.getElementById('altTxtBox');
       let urlBox = document.getElementById('urlBox');
+      let piuBox = document.getElementById('previewImgUrlBox');
       let stkBox = document.getElementById('stkBox');
       let sidBox = document.getElementById('sidBox');
       let pkgBox = document.getElementById('pkgBox');
@@ -269,6 +267,7 @@
       }
       else if (switchBtn == "mp4") {
         setDisplay(urlBox);
+        setDisplay(piuBox)
         setFooterDisplay();
       }
       else if (switchBtn == "mp3") {
@@ -292,7 +291,7 @@
 
 <body>
   <div>
-    <h3>sendMessage ver.2.2.2</h3>
+    <h3>sendMessage ver.2.2.3</h3>
     <select id="messageType" name="messageType" onchange="valueChange();">
       <option hidden>メッセージタイプを選択</option>
       <option value="txt">Text</option>
@@ -318,8 +317,12 @@
       <textarea id="altTxt" placeholder="alt_text" style="width:96%;height:16px;"></textarea>
     </div>
     <div id="urlBox">
-      <p>URL</p>
+      <p>Url</p>
       <textarea id="url" placeholder="url" style="width:96%;height:16px"></textarea>
+    </div>
+    <div id="previewImgUrlBox">
+      <p>PreviewImageUrl</p>
+      <textarea id="previewImgUrl" placeholder="url" style="width:96%;height:16px"></textarea>
     </div>
     <div id="stkBox">
       <p>stk</p>
@@ -339,11 +342,11 @@
       <textarea id="footerTxt" placeholder="footerText" style="width:96%;height:16px"></textarea>
     </div>
     <div id="footerUrlBox">
-      <p>フッターURL</p>
+      <p>フッターUrl</p>
       <textarea id="footerUrl" placeholder="footerUrl" style="width:96%;height:16px"></textarea>
     </div>
     <div id="footerIconUrlBox">
-      <p>フッターアイコンURL</p>
+      <p>フッターアイコンUrl</p>
       <textarea id="footerIconUrl" placeholder="footerIconUrl" style="width:96%;height:16px"></textarea>
     </div>
     <div id="jsonBox">
