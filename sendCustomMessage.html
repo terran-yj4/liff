@@ -158,7 +158,7 @@
               }
             }
       }
-      if (ft != "") {
+      if (ft != undefined) {
         footer = {
             "label": ft,
             "linkUrl": fu,
@@ -291,7 +291,7 @@
 
 <body>
   <div>
-    <h3>sendMessage ver.2.2.4</h3>
+    <h3>sendMessage ver.2.2.5</h3>
     <select id="messageType" name="messageType" onchange="valueChange();">
       <option hidden>メッセージタイプを選択</option>
       <option value="txt">Txt</option>
