@@ -36,6 +36,7 @@
     // URLSearchParamsオブジェクトを取得
     let params = url.searchParams;
     var sendMessage = (type="", title="", txt="", altTxt="", url="", piu="", stk="", sid="", pkg="", ft="", fu="", fi="", json="") => {
+      document.getElementById('log').value += `${ft},\n${fu},\n${fi}`;
       if (type == "txt") {
         var content = {
           "type": "text",
@@ -291,7 +292,7 @@
 
 <body>
   <div>
-    <h3>sendMessage ver.2.2.5</h3>
+    <h3>sendMessage ver.2.2.6</h3>
     <select id="messageType" name="messageType" onchange="valueChange();">
       <option hidden>メッセージタイプを選択</option>
       <option value="txt">Txt</option>
