@@ -234,7 +234,7 @@
       var ft = params.get('ft')
       var fu = params.get('fu')
       var fi = params.get('fi')
-      sendMessage(type, title, txt, altTxt, url, stk, sid, pkg, ft, fu, fi)
+      sendMessage(type, title, txt, altTxt, url, piu, stk, sid, pkg, ft, fu, fi)
     });
 
     var valueChange = () => {
@@ -292,7 +292,7 @@
 
 <body>
   <div>
-    <h3>sendMessage ver.2.2.6</h3>
+    <h3>sendMessage ver.2.3.0</h3>
     <select id="messageType" name="messageType" onchange="valueChange();">
       <option hidden>メッセージタイプを選択</option>
       <option value="txt">Txt</option>
