@@ -79,9 +79,21 @@
       }
       if (type == "image") {
         var content = {
-          "type": "image",
-          "originalContentUrl": url,
-          "previewImageUrl": url
+          "type": "carousel",
+          "contents": [
+          {
+            "type": "bubble",
+            "size": "giga",
+            "hero": {
+              "type": "image",
+              "url": url,
+              "size": "full",
+              "aspectRatio": "1:1",
+              "aspectMode": "cover"
+              
+            }
+          }
+          ]
         }
       }
       if (type == "video"){
@@ -213,8 +225,28 @@
       sendMessage(type, title, txt, altTxt, url, piu, stk, sid, pkg, ft, fu, fi, json)
     }
 
-    var copyLink = () => {
-      console.log("未実装")
+    var generateUrl = () => {
+      let type = document.getElementById("messageType").value;
+      var title = document.getElementById("ttl").value;
+      var txt = document.getElementById("txt").value;
+      var altTxt = document.getElementById("altTxt").value;
+      var url = document.getElementById("url").value;
+      var piu = document.getElementById("previewImgUrl").value;
+      var stk = document.getElementById("stk").value;
+      var sid = document.getElementById("sid").value;
+      var pkg = document.getElementById("pkg").value;
+      var ft = document.getElementById("footerTxt").value;
+      var fu = document.getElementById("footerUrl").value;
+      var fi = document.getElementById("footerIconUrl").value;
+      var json = document.getElementById("json").value;
+      let parameter = ""
+      if (type == "txt") {
+        parameter = "type="+type+"&txt="+txt
+      } else if (type == "stk") {
+        parameter = "type="+type+"&stk="+stk+"&sid="+sid+"&pkg="+pkg
+      }
+      let liffUrl = "生成URL: line://app/1656316634-09bXLKaV?"+parameter
+      document.getElementById("genUrl").innerHTML = liffUrl
     }
 
     // ページをロードした時に動く
@@ -234,7 +266,7 @@
       var ft = params.get('ft')
       var fu = params.get('fu')
       var fi = params.get('fi')
-      sendMessage(type, title, txt, altTxt, url, piu, stk, sid, pkg, ft, fu, fi)
+      sendMessage(type, title, txt, altTxt, url, piu, stk, sid, pkg, ft, fu, fi, json)
     });
 
     var valueChange = () => {
@@ -292,7 +324,7 @@
 
 <body>
   <div>
-    <h3>sendMessage ver.2.3.0</h3>
+    <h3>sendMessage ver.2.3.2</h3>
     <select id="messageType" name="messageType" onchange="valueChange();">
       <option hidden>メッセージタイプを選択</option>
       <option value="txt">Txt</option>
@@ -305,13 +337,16 @@
     </select>
     <input type="button" onclick="buttonClick()" class="btn btn--orange btn--radius" value="実行" />
     <input type="button" onclick="copyLink()" class="btn btn--blue btn--radius" value="条件のurlをコピー" />
+    <div>
+      <div id="liffUrlDisplay">生成URL: </div>
+    </div>
     <div id="ttlBox">
       <p>タイトル</p>
       <textarea id="ttl" placeholder="ttl" style="width:96%;height:16px;"></textarea>
     </div>
     <div id="txtBox">
       <p>テキスト</p>
-      <textarea id="txt" placeholder="txt" style="width:96%;height:16px;"></textarea>
+      <textarea id="txt" placeholder="txt" style="width:96%;height:16px;" onkeyup="generateUrl()"></textarea>
     </div>
     <div id="altTxtBox">
       <p>オルトテキスト</p>
@@ -360,7 +395,7 @@
     <ul>
       <li>txt</li>
       txt
-      <li>sticker</li>
+      <li>stk</li>
       xxx
       <li>image</li>
       url
