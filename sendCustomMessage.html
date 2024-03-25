@@ -60,6 +60,11 @@
         if (stk == "anim") {
           imgurl = "https://stickershop.line-scdn.net/stickershop/v1/sticker/" + sid + "/iPhone/sticker_animation@2x.png"
         }
+
+        var image = new Image()
+        image.src = "https://stickershop.line-scdn.net/stickershop/v1/sticker/187571682/iPhone/sticker@2x.png"
+        document.getElementById('log').value += "w, h = " + String(image.width), String(image.height);
+
         var content = {
           "type": "flex",
           "altText": "BigStickerが送信されました",
@@ -326,7 +331,7 @@
 
 <body>
   <div>
-    <h3>sendMessage ver.2.4.4</h3>
+    <h3>sendMessage ver.2.4.5</h3>
     <select id="messageType" name="messageType" onchange="valueChange();">
       <option hidden>メッセージタイプを選択</option>
       <option value="txt">Txt</option>
