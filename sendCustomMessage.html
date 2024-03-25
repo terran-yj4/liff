@@ -61,6 +61,11 @@
           imgurl = "https://stickershop.line-scdn.net/stickershop/v1/sticker/" + sid + "/iPhone/sticker_animation@2x.png"
         }
 
+        var image = new Image()
+        image.src = imgurl
+        width = image.width
+        height = image.height
+
         var content = {
           "type": "flex",
           "altText": "BigStickerが送信されました",
@@ -71,7 +76,7 @@
               "type": "image",
               "url": imgurl,
               "size": "100%",
-              "aspectRatio": "560:360"
+              "aspectRatio": `${width}:${height}`
             },
             "action": {
               "type": "uri",
@@ -328,7 +333,7 @@
 
 <body>
   <div>
-    <h3>sendMessage ver.2.4.0</h3>
+    <h3>sendMessage ver.2.4.1</h3>
     <select id="messageType" name="messageType" onchange="valueChange();">
       <option hidden>メッセージタイプを選択</option>
       <option value="txt">Txt</option>
