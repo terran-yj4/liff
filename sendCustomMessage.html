@@ -30,12 +30,12 @@
       document.getElementById('footerUrlBox').style.display = '';
       document.getElementById('footerIconUrlBox').style.display = '';
     }
-    
+
     // URLを取得
     let url = new URL(window.location.href);
     // URLSearchParamsオブジェクトを取得
     let params = url.searchParams;
-    var sendMessage = (type="", title="", txt="", altTxt="", url="", piu="", stk="", sid="", pkg="", ft="", fu="", fi="", json="") => {
+    var sendMessage = (type = "", title = "", txt = "", altTxt = "", url = "", piu = "", stk = "", sid = "", pkg = "", ft = "", fu = "", fi = "", json = "") => {
       document.getElementById('log').value += `${ft},\n${fu},\n${fi}`;
       if (type == "txt") {
         var content = {
@@ -60,20 +60,24 @@
         if (stk == "anim") {
           imgurl = "https://stickershop.line-scdn.net/stickershop/v1/sticker/" + sid + "/iPhone/sticker_animation@2x.png"
         }
+
         var content = {
-          "type": "template",
+          "type": "flex",
           "altText": "BigStickerが送信されました",
-          "template": {
-            "type": "image_carousel",
-            "columns": [
-              {
-                "imageUrl": imgurl,
-                "action": {
-                  "type": "uri",
-                  "uri": link
-                }
-              }
-            ]
+          "contents": {
+            "type": "bubble",
+            "size": "giga",
+            "hero": {
+              "type": "image",
+              "url": imgurl,
+              "size": "100%",
+              "aspectRatio": "560:360"
+            },
+            "action": {
+              "type": "uri",
+              "label": "action",
+              "uri": link
+            }
           }
         }
       }
@@ -81,102 +85,102 @@
         var content = {
           "type": "carousel",
           "contents": [
-          {
-            "type": "bubble",
-            "size": "giga",
-            "hero": {
-              "type": "image",
-              "url": url,
-              "size": "full",
-              "aspectRatio": "1:1",
-              "aspectMode": "cover"
-              
+            {
+              "type": "bubble",
+              "size": "giga",
+              "hero": {
+                "type": "image",
+                "url": url,
+                "size": "full",
+                "aspectRatio": "1:1",
+                "aspectMode": "cover"
+
+              }
             }
-          }
           ]
         }
       }
-      if (type == "video"){
+      if (type == "video") {
         var content = {
           "type": "video",
           "originalContentUrl": url,
           "previewImageUrl": piu
         }
       }
-      if (type == "audio"){
+      if (type == "audio") {
       }
-      if (type == "flex"){
+      if (type == "flex") {
         var content = {
-              "type": "flex",
-              "altText": altTxt,
-              "contents": {
-                "type": "bubble",
-                "header": {
-                  "type": "box",
-                  "layout": "baseline",
-                  "contents": [
-                    {
-                      "type": "text",
-                      "text": title,
-                      "align": "center"
-                    }
-                  ],
-                  "action": {
-                    "type": "uri",
-                    "label": "action",
-                    "uri": url
-                  },
-                  "backgroundColor": "#ff9944",
-                  "paddingAll": "8px"
-                },
-                "body": {
-                  "type": "box",
-                  "layout": "vertical",
-                  "contents": [
-                    {
-                      "type": "text",
-                      "text": txt,
-                      "wrap": true
-                    }
-                  ],
-                  "action": {
-                    "type": "uri",
-                    "label": "action",
-                    "uri": url
-                  }
-                },
-                "footer": {
-                  "type": "box",
-                  "layout": "horizontal",
-                  "contents": [
-                    {
-                      "type": "text",
-                      "text": "© 2021 Ybot",
-                      "size": "xs",
-                      "align": "center"
-                    }
-                  ],
-                  "action": {
-                    "type": "uri",
-                    "label": "action",
-                    "uri": url
-                  },
-                  "paddingAll": "6px"
-                },
-                "styles": {
-                  "footer": {
-                    "backgroundColor": "#c0c0c0"
-                  }
+          "type": "flex",
+          "altText": altTxt,
+          "contents": {
+            "type": "bubble",
+            "header": {
+              "type": "box",
+              "layout": "baseline",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": title,
+                  "align": "center"
                 }
+              ],
+              "action": {
+                "type": "uri",
+                "label": "action",
+                "uri": url
+              },
+              "backgroundColor": "#ff9944",
+              "paddingAll": "8px"
+            },
+            "body": {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": txt,
+                  "wrap": true
+                }
+              ],
+              "action": {
+                "type": "uri",
+                "label": "action",
+                "uri": url
+              }
+            },
+            "footer": {
+              "type": "box",
+              "layout": "horizontal",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "© 2021 Ybot",
+                  "size": "xs",
+                  "align": "center"
+                }
+              ],
+              "action": {
+                "type": "uri",
+                "label": "action",
+                "uri": url
+              },
+              "paddingAll": "6px"
+            },
+            "styles": {
+              "footer": {
+                "backgroundColor": "#c0c0c0"
               }
             }
+          }
+        }
       }
       if (ft != "") {
         footer = {
-            "label": ft,
-            "linkUrl": fu,
-            "iconUrl": fi
-          }
+          "label": ft,
+          "linkUrl": fu,
+          "iconUrl": fi
+        }
         content.sentBy = footer
       }
       if (type == "json") {
@@ -241,11 +245,11 @@
       var json = document.getElementById("json").value;
       let parameter = ""
       if (type == "txt") {
-        parameter = "type="+type+"&txt="+txt
+        parameter = "type=" + type + "&txt=" + txt
       } else if (type == "stk") {
-        parameter = "type="+type+"&stk="+stk+"&sid="+sid+"&pkg="+pkg
+        parameter = "type=" + type + "&stk=" + stk + "&sid=" + sid + "&pkg=" + pkg
       }
-      let liffUrl = "生成URL: line://app/1656316634-09bXLKaV?"+parameter
+      let liffUrl = "生成URL: line://app/1656316634-09bXLKaV?" + parameter
       document.getElementById("genUrl").innerHTML = liffUrl
     }
 
@@ -324,7 +328,7 @@
 
 <body>
   <div>
-    <h3>sendMessage ver.2.3.5</h3>
+    <h3>sendMessage ver.2.4.0</h3>
     <select id="messageType" name="messageType" onchange="valueChange();">
       <option hidden>メッセージタイプを選択</option>
       <option value="txt">Txt</option>
@@ -372,7 +376,7 @@
       <p>packageId</p>
       <textarea id="pkg" placeholder="1" style="width:96%;height:16px"></textarea>
     </div>
-    
+
     <div id="footerTxtBox">
       <p>フッターテキスト</p>
       <textarea id="footerTxt" placeholder="footerTxt" style="width:96%;height:16px"></textarea>
@@ -419,7 +423,7 @@
       color: #fff;
       background: #f56500;
     }
-    
+
     .btn--blue,
     a.btn--blue {
       color: #fff;
