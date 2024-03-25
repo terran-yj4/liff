@@ -63,8 +63,8 @@
 
         var image = new Image()
         image.src = imgurl
-        width = image.width
-        height = image.height
+        stkwidth = image.width
+        stkheight = image.height
 
         var content = {
           "type": "flex",
@@ -76,7 +76,7 @@
               "type": "image",
               "url": imgurl,
               "size": "100%",
-              "aspectRatio": `${width}:${height}`
+              "aspectRatio": stkwidth + ":" + stkheight
             },
             "action": {
               "type": "uri",
