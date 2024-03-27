@@ -63,7 +63,7 @@
 
         var image = new Image()
         image.src = "https://stickershop.line-scdn.net/stickershop/v1/sticker/187571682/iPhone/sticker@2x.png"
-        document.getElementById('log').value += "w, h = " + String(image.width), String(image.height);
+        document.getElementById('log').value += "\nw, h = " + String(image.width) + String(image.height);
 
         var content = {
           "type": "flex",
@@ -330,7 +330,7 @@
 
 <body>
   <div>
-    <h3>sendMessage ver.2.4.6</h3>
+    <h3>sendMessage ver.2.4.7</h3>
     <select id="messageType" name="messageType" onchange="valueChange();">
       <option hidden>メッセージタイプを選択</option>
       <option value="txt">Txt</option>
