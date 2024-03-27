@@ -197,7 +197,7 @@
             ])
               .then(function () {
                 document.getElementById('log').value += 'sendMessages completed\n';
-                // liff.closeWindow()
+                liff.closeWindow()
               }).catch(function (error) {
                 document.getElementById('log').value += 'sendMessagesTxt()=' + error + '\n';
                 alert("トークルームが開かれていないか\nURLパラメータに誤りがあります。\n送信先ルーム及び、リンクを確認し\n再度実行してください。\n\n" + error)
@@ -206,7 +206,7 @@
           .catch((err) => {
             document.getElementById('log').value = 'init ng\n' + err;
             alert("initialization failed")
-            // liff.closeWindow()
+            liff.closeWindow()
           });
       }
     }
@@ -326,7 +326,7 @@
 
 <body>
   <div>
-    <h3>sendMessage ver.2.4.10</h3>
+    <h3>sendMessage ver.2.5.0</h3>
     <select id="messageType" name="messageType" onchange="valueChange();">
       <option hidden>メッセージタイプを選択</option>
       <option value="txt">Txt</option>
