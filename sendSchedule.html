@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>課題登録</title>
+  <title>リマインダー登録</title>
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
   <style>
     body {
@@ -16,6 +16,7 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
+      text-align: center;
     }
 
     .container {
@@ -29,14 +30,18 @@
     }
 
     h2 {
-      text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       font-weight: 600;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+      text-align: left;
     }
 
     label {
       display: block;
-      margin: 10px 0 5px;
+      margin-bottom: 5px;
       font-weight: 500;
     }
 
@@ -47,7 +52,6 @@
       padding: 10px;
       border-radius: 8px;
       border: none;
-      margin-bottom: 15px;
       font-size: 16px;
     }
 
@@ -62,6 +66,7 @@
       font-weight: bold;
       cursor: pointer;
       transition: background 0.3s ease;
+      margin-top: 10px;
     }
 
     button:hover {
@@ -69,34 +74,41 @@
     }
 
     .footer {
-      margin-top: 15px;
+      margin-top: 20px;
       font-size: 12px;
-      text-align: center;
       color: #ccc;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>📘 課題登録</h2>
-    <label for="assignment">課題名</label>
-    <input type="text" id="assignment" placeholder="例: 数学のレポート">
+    <h2>📘 リマインダー登録</h2>
 
-    <label for="day">曜日</label>
-    <select id="day">
-      <option value="mon">月曜</option>
-      <option value="tue">火曜</option>
-      <option value="wed">水曜</option>
-      <option value="thu">木曜</option>
-      <option value="fri">金曜</option>
-      <option value="sat">土曜</option>
-      <option value="sun">日曜</option>
-    </select>
+    <div class="form-group">
+      <label for="assignment">課題名</label>
+      <input type="text" id="assignment" placeholder="例: 数学のレポート">
+    </div>
 
-    <label for="time">締切時刻</label>
-    <input type="time" id="time">
+    <div class="form-group">
+      <label for="day">曜日</label>
+      <select id="day">
+        <option value="mon">月曜日</option>
+        <option value="tue">火曜日</option>
+        <option value="wed">水曜日</option>
+        <option value="thu">木曜日</option>
+        <option value="fri">金曜日</option>
+        <option value="sat">土曜日</option>
+        <option value="sun">日曜日</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="time">締切時刻</label>
+      <input type="time" id="time">
+    </div>
 
     <button onclick="send()">送信する</button>
+
     <div class="footer">powered by LIFF</div>
   </div>
 
@@ -123,7 +135,7 @@
         fri: "金曜日", sat: "土曜日", sun: "日曜日"
       };
 
-      const msg = `📘 課題登録\n課題名: ${assignment}\n締切: ${dayMap[day]} ${time}`;
+      const msg = `/addrm:${assignment}:${dayMap[day]}:${time}`;
 
       await liff.sendMessages([{ type: "text", text: msg }]);
       alert("グループに送信しました！");
