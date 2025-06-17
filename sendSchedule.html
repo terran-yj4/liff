@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>課題登録</title>
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <style>
+    body {
+      font-family: 'Helvetica Neue', sans-serif;
+      background: linear-gradient(135deg, #1cb5e0, #000851);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      max-width: 350px;
+      width: 90%;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: 500;
+    }
+
+    input[type="text"],
+    input[type="time"],
+    select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background-color: #00c3ff;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #009ddc;
+    }
+
+    .footer {
+      margin-top: 15px;
+      font-size: 12px;
+      text-align: center;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>📘 課題登録</h2>
+    <label for="assignment">課題名</label>
+    <input type="text" id="assignment" placeholder="例: 数学のレポート">
+
+    <label for="day">曜日</label>
+    <select id="day">
+      <option value="mon">月曜</option>
+      <option value="tue">火曜</option>
+      <option value="wed">水曜</option>
+      <option value="thu">木曜</option>
+      <option value="fri">金曜</option>
+      <option value="sat">土曜</option>
+      <option value="sun">日曜</option>
+    </select>
+
+    <label for="time">締切時刻</label>
+    <input type="time" id="time">
+
+    <button onclick="send()">送信する</button>
+    <div class="footer">powered by LIFF</div>
+  </div>
+
+  <script>
+    async function send() {
+      await liff.init({ liffId: "1656316634-RqGjnQJX" });
+
+      if (!liff.isInClient()) {
+        alert("この機能はLINEアプリ内で使用してください。");
+        return;
+      }
+
+      const assignment = document.getElementById("assignment").value.trim();
+      const day = document.getElementById("day").value;
+      const time = document.getElementById("time").value;
+
+      if (!assignment || !time) {
+        alert("課題名と締切時刻は必須です。");
+        return;
+      }
+
+      const dayMap = {
+        mon: "月曜日", tue: "火曜日", wed: "水曜日", thu: "木曜日",
+        fri: "金曜日", sat: "土曜日", sun: "日曜日"
+      };
+
+      const msg = `📘 課題登録\n課題名: ${assignment}\n締切: ${dayMap[day]} ${time}`;
+
+      await liff.sendMessages([{ type: "text", text: msg }]);
+      alert("グループに送信しました！");
+      liff.closeWindow();
+    }
+  </script>
+</body>
+</html>

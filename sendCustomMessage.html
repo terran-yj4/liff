@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="jp" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <title>SendCustomMessageV2</title>
+  <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script type="text/javascript">
+    //styleのdisplayを変更する関数
+    let resetDisplay = () => {
+      document.getElementById('ttlBox').style.display = "none";
+      document.getElementById('txtBox').style.display = "none";
+      document.getElementById('altTxtBox').style.display = "none";
+      document.getElementById('urlBox').style.display = "none";
+      document.getElementById('previewImgUrlBox').style.display = "none";
+      document.getElementById('stkBox').style.display = "none";
+      document.getElementById('sidBox').style.display = "none";
+      document.getElementById('pkgBox').style.display = "none";
+      document.getElementById('footerTxtBox').style.display = "none";
+      document.getElementById('footerUrlBox').style.display = "none";
+      document.getElementById('footerIconUrlBox').style.display = "none";
+      document.getElementById('jsonBox').style.display = "none";
+    };
+    let setDisplay = (el) => {
+      el.style.display = '';
+    }
+    let setFooterDisplay = () => {
+      document.getElementById('footerTxtBox').style.display = '';
+      document.getElementById('footerUrlBox').style.display = '';
+      document.getElementById('footerIconUrlBox').style.display = '';
+    }
+
+    // URLを取得
+    let url = new URL(window.location.href);
+    // URLSearchParamsオブジェクトを取得
+    let params = url.searchParams;
+    var sendMessage = (type = "", title = "", txt = "", altTxt = "", url = "", piu = "", stk = "", sid = "", pkg = "", ft = "", fu = "", fi = "", json = "") => {
+      document.getElementById('log').value += `${ft},\n${fu},\n${fi}`;
+      if (type == "txt") {
+        var content = {
+          "type": "text",
+          "text": txt
+        }
+      }
+      if (type == "txt2") {
+        var content = {
+          "type": 'text',
+          "text": txt,
+          "sentBy": {
+            "label": ' | ©Autobots',
+            "iconUrl": 'https://i.ibb.co/MkJWTQv/autobots-rolling.gif',
+            "linkUrl": 'https://ren.imjustgood.com/p/autobots'
+          }
+        }
+      }
+      if (type == "stk") {
+        let imgurl = "https://stickershop.line-scdn.net/stickershop/v1/sticker/" + sid + "/iPhone/sticker@2x.png"
+        let link = "https://line.me/S/sticker/" + pkg
+        if (stk == "anim") {
+          imgurl = "https://stickershop.line-scdn.net/stickershop/v1/sticker/" + sid + "/iPhone/sticker_animation@2x.png"
+        }
+
+        var content = {
+          "type": "flex",
+          "altText": "BigStickerが送信されました",
+          "contents": {
+            "type": "bubble",
+            "size": "mega",
+            "hero": {
+              "type": "image",
+              "url": imgurl,
+              "size": "100%",
+              "aspectRatio": "1:1"
+            },
+            "action": {
+              "type": "uri",
+              "label": "action",
+              "uri": link
+            }
+          }
+        }
+      }
+      if (type == "image") {
+        var content = {
+          "type": "carousel",
+          "contents": [
+            {
+              "type": "bubble",
+              "size": "giga",
+              "hero": {
+                "type": "image",
+                "url": url,
+                "size": "full",
+                "aspectRatio": "1:1",
+                "aspectMode": "cover"
+              }
+            }
+          ]
+        }
+      }
+      if (type == "video") {
+        var content = {
+          "type": "video",
+          "originalContentUrl": url,
+          "previewImageUrl": piu
+        }
+      }
+      if (type == "audio") {
+      }
+      if (type == "flex") {
+        var content = {
+          "type": "flex",
+          "altText": altTxt,
+          "contents": {
+            "type": "bubble",
+            "header": {
+              "type": "box",
+              "layout": "baseline",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": title,
+                  "align": "center"
+                }
+              ],
+              "action": {
+                "type": "uri",
+                "label": "action",
+                "uri": url
+              },
+              "backgroundColor": "#ff9944",
+              "paddingAll": "8px"
+            },
+            "body": {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": txt,
+                  "wrap": true
+                }
+              ],
+              "action": {
+                "type": "uri",
+                "label": "action",
+                "uri": url
+              }
+            },
+            "footer": {
+              "type": "box",
+              "layout": "horizontal",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "© 2021 Ybot",
+                  "size": "xs",
+                  "align": "center"
+                }
+              ],
+              "action": {
+                "type": "uri",
+                "label": "action",
+                "uri": url
+              },
+              "paddingAll": "6px"
+            },
+            "styles": {
+              "footer": {
+                "backgroundColor": "#c0c0c0"
+              }
+            }
+          }
+        }
+      }
+      if (ft != "") {
+        footer = {
+          "label": ft,
+          "linkUrl": fu,
+          "iconUrl": fi
+        }
+        content.sentBy = footer
+      }
+      if (type == "json") {
+        content = JSON.parse(json)
+      }
+      document.getElementById('log').value += 'content:\n' + content + '\n';
+      if (content) {
+        liff
+          .init({
+            liffId: '1656316634-09bXLKaV'
+          })
+          .then(() => {
+            liff.sendMessages([
+              content
+            ])
+              .then(function () {
+                document.getElementById('log').value += 'sendMessages completed\n';
+                liff.closeWindow()
+              }).catch(function (error) {
+                document.getElementById('log').value += 'sendMessagesTxt()=' + error + '\n';
+                alert("トークルームが開かれていないか\nURLパラメータに誤りがあります。\n送信先ルーム及び、リンクを確認し\n再度実行してください。\n\n" + error)
+              });
+          })
+          .catch((err) => {
+            document.getElementById('log').value = 'init ng\n' + err;
+            alert("initialization failed")
+            liff.closeWindow()
+          });
+      }
+    }
+
+    var buttonClick = () => {
+      var type = document.getElementById("messageType").value;
+      var title = document.getElementById("ttl").value;
+      var txt = document.getElementById("txt").value;
+      var altTxt = document.getElementById("altTxt").value;
+      var url = document.getElementById("url").value;
+      var piu = document.getElementById("previewImgUrl").value;
+      var stk = document.getElementById("stk").value;
+      var sid = document.getElementById("sid").value;
+      var pkg = document.getElementById("pkg").value;
+      var ft = document.getElementById("footerTxt").value;
+      var fu = document.getElementById("footerUrl").value;
+      var fi = document.getElementById("footerIconUrl").value;
+      var json = document.getElementById("json").value;
+      sendMessage(type, title, txt, altTxt, url, piu, stk, sid, pkg, ft, fu, fi, json)
+    }
+
+    var generateUrl = () => {
+      let type = document.getElementById("messageType").value;
+      var title = document.getElementById("ttl").value;
+      var txt = document.getElementById("txt").value;
+      var altTxt = document.getElementById("altTxt").value;
+      var url = document.getElementById("url").value;
+      var piu = document.getElementById("previewImgUrl").value;
+      var stk = document.getElementById("stk").value;
+      var sid = document.getElementById("sid").value;
+      var pkg = document.getElementById("pkg").value;
+      var ft = document.getElementById("footerTxt").value;
+      var fu = document.getElementById("footerUrl").value;
+      var fi = document.getElementById("footerIconUrl").value;
+      var json = document.getElementById("json").value;
+      let parameter = ""
+      if (type == "txt") {
+        parameter = "type=" + type + "&txt=" + txt
+      } else if (type == "stk") {
+        parameter = "type=" + type + "&stk=" + stk + "&sid=" + sid + "&pkg=" + pkg
+      }
+      let liffUrl = "生成URL: line://app/1656316634-09bXLKaV?" + parameter
+      document.getElementById("genUrl").innerHTML = liffUrl
+    }
+
+    // ページをロードした時に動く
+    document.addEventListener("DOMContentLoaded", () => {
+      resetDisplay();
+      // それぞれのパラメータを変数に代入
+      var type = params.get('type')
+      var txt = params.get('txt')
+      var title = params.get('title')
+      var txt = params.get('txt')
+      var altTxt = "カスタムメッセージが送信されました。"
+      var url = params.get('url')
+      var piu = params.get('piu')
+      var stk = params.get('stk')
+      var sid = params.get('sid')
+      var pkg = params.get('pkg')
+      var ft = params.get('ft')
+      var fu = params.get('fu')
+      var fi = params.get('fi')
+      sendMessage(type, title, txt, altTxt, url, piu, stk, sid, pkg, ft, fu, fi, json)
+    });
+
+    var valueChange = () => {
+      let switchBtn = document.getElementsByName('messageType')[0].value;
+      console.log(switchBtn)
+      resetDisplay();
+      //表示・非表示を切り替える要素を取得
+      let ttlBox = document.getElementById('ttlBox');
+      let txtBox = document.getElementById('txtBox');
+      let altTxtBox = document.getElementById('altTxtBox');
+      let urlBox = document.getElementById('urlBox');
+      let piuBox = document.getElementById('previewImgUrlBox');
+      let stkBox = document.getElementById('stkBox');
+      let sidBox = document.getElementById('sidBox');
+      let pkgBox = document.getElementById('pkgBox');
+      let jsonBox = document.getElementById('jsonBox');
+
+      if (switchBtn == "txt") {
+        setDisplay(txtBox);
+        setFooterDisplay();
+      }
+      else if (switchBtn == "stk") {
+        setDisplay(stkBox);
+        setDisplay(sidBox);
+        setDisplay(pkgBox);
+        setFooterDisplay();
+      }
+      else if (switchBtn == "image") {
+        setDisplay(urlBox);
+        setFooterDisplay();
+      }
+      else if (switchBtn == "mp4") {
+        setDisplay(urlBox);
+        setDisplay(piuBox)
+        setFooterDisplay();
+      }
+      else if (switchBtn == "mp3") {
+        setDisplay(urlBox);
+        setFooterDisplay();
+      }
+      else if (switchBtn == "flex") {
+        setDisplay(ttlBox);
+        setDisplay(txtBox);
+        setDisplay(altTxtBox);
+        setDisplay(urlBox);
+        setFooterDisplay();
+      }
+      else if (switchBtn == "json") {
+        setDisplay(jsonBox);
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <div>
+    <h3>sendMessage ver.2.5.2</h3>
+    <select id="messageType" name="messageType" onchange="valueChange();">
+      <option hidden>メッセージタイプを選択</option>
+      <option value="txt">Txt</option>
+      <option value="stk">Sticker</option>
+      <option value="image">Image</option>
+      <option value="mp4">Video</option>
+      <option value="mp3">Audio</option>
+      <option value="flex">Flex</option>
+      <option value="json">Json</option>
+    </select>
+    <input type="button" onclick="buttonClick()" class="btn btn--orange btn--radius" value="実行" />
+    <input type="button" onclick="copyLink()" class="btn btn--blue btn--radius" value="条件のurlをコピー" />
+    <div>
+      <div id="liffUrlDisplay">生成URL: </div>
+    </div>
+    <div id="ttlBox">
+      <p>タイトル</p>
+      <textarea id="ttl" placeholder="ttl" style="width:96%;height:16px;"></textarea>
+    </div>
+    <div id="txtBox">
+      <p>テキスト</p>
+      <textarea id="txt" placeholder="txt" style="width:96%;height:16px;" onkeyup="generateUrl()"></textarea>
+    </div>
+    <div id="altTxtBox">
+      <p>オルトテキスト</p>
+      <textarea id="altTxt" placeholder="alt_txt" style="width:96%;height:16px;"></textarea>
+    </div>
+    <div id="urlBox">
+      <p>Url</p>
+      <textarea id="url" placeholder="url" style="width:96%;height:16px"></textarea>
+    </div>
+    <div id="previewImgUrlBox">
+      <p>PreviewImageUrl</p>
+      <textarea id="previewImgUrl" placeholder="url" style="width:96%;height:16px"></textarea>
+    </div>
+    <div id="stkBox">
+      <p>stk</p>
+      <textarea id="stk" placeholder="anim/noanim" style="width:96%;height:16px"></textarea>
+    </div>
+    <div id="sidBox">
+      <p>stickerId</p>
+      <textarea id="sid" placeholder="1" style="width:96%;height:16px"></textarea>
+    </div>
+    <div id="pkgBox">
+      <p>packageId</p>
+      <textarea id="pkg" placeholder="1" style="width:96%;height:16px"></textarea>
+    </div>
+
+    <div id="footerTxtBox">
+      <p>フッターテキスト</p>
+      <textarea id="footerTxt" placeholder="footerTxt" style="width:96%;height:16px"></textarea>
+    </div>
+    <div id="footerUrlBox">
+      <p>フッターUrl</p>
+      <textarea id="footerUrl" placeholder="footerUrl" style="width:96%;height:16px"></textarea>
+    </div>
+    <div id="footerIconUrlBox">
+      <p>フッターアイコンUrl</p>
+      <textarea id="footerIconUrl" placeholder="footerIconUrl" style="width:96%;height:16px"></textarea>
+    </div>
+    <div id="jsonBox">
+      <p>jsonData</p>
+      <textarea id="json" placeholder="{type': 'text, 'text': 'example-json'}" style="width:96%;height:16px"></textarea>
+    </div>
+  </div>
+  <textarea id="log" placeholder="何も入力しないでください。ツール実行時のログが表示されます。" style="width:96%;height:100px;"></textarea>
+  <div> <!--メッセージタイプに対応する、要素の一覧-->
+    <ul>
+      <li>txt</li>
+      txt
+      <li>stk</li>
+      xxx
+      <li>image</li>
+      url
+      <li>video</li>
+      url
+      <li>audio</li>
+      url
+      <li>flex</li>
+      title, txt, alttxt, url
+    </ul>
+  </div>
+  <style>
+    .btn--orange,
+    a.btn--orange {
+      color: #fff;
+      background-color: #eb6100;
+    }
+
+    .btn--orange:hover,
+    a.btn--orange:hover {
+      color: #fff;
+      background: #f56500;
+    }
+
+    .btn--blue,
+    a.btn--blue {
+      color: #fff;
+      background-color: #0000ff;
+    }
+
+    .btn--blue:hover,
+    a.btn--blue:hover {
+      color: #fff;
+      background: #0000ff;
+    }
+
+    a.btn--radius {
+      border-radius: 100vh;
+    }
+  </style>
+</body>
+
+</html>
