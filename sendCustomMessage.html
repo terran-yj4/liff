@@ -82,21 +82,27 @@
         }
       }
       if (type == "image") {
+      //   var content = {
+      //     "type": "carousel",
+      //     "contents": [
+      //       {
+      //         "type": "bubble",
+      //         "size": "giga",
+      //         "hero": {
+      //           "type": "image",
+      //           "url": url,
+      //           "size": "full",
+      //           "aspectRatio": "1:1",
+      //           "aspectMode": "cover"
+      //         }
+      //       }
+      //     ]
+      //   }
+      // }
         var content = {
-          "type": "carousel",
-          "contents": [
-            {
-              "type": "bubble",
-              "size": "giga",
-              "hero": {
-                "type": "image",
-                "url": url,
-                "size": "full",
-                "aspectRatio": "1:1",
-                "aspectMode": "cover"
-              }
-            }
-          ]
+          "type": "image",
+          "originalContentUrl": url,
+          "previewImageUrl": url
         }
       }
       if (type == "video") {
@@ -326,7 +332,7 @@
 
 <body>
   <div>
-    <h3>sendMessage ver.2.5.2</h3>
+    <h3>sendMessage ver.2.5.3</h3>
     <select id="messageType" name="messageType" onchange="valueChange();">
       <option hidden>メッセージタイプを選択</option>
       <option value="txt">Txt</option>
